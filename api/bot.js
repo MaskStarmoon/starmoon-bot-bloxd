@@ -2,31 +2,51 @@ const puppeteer = require('puppeteer-core');
 const chromium = require('chrome-aws-lambda');
 
 async function runBot() {
-  // Start Puppeteer with chrome-aws-lambda
-  const browser = await puppeteer.launch({
-    args: chromium.args,
-    executablePath: await chromium.executablePath,
-    headless: chromium.headless,
-  });
-  const page = await browser.newPage();
+  try {
+    // Start Puppeteer with chrome-aws-lambda
+    const browser = await puppeteer.launch({
+      args: chromium.args,
+      executablePath: await chromium.executablePath,
+      headless: chromium.headless,
+    });
 
-  // Masukkan URL yang diinginkan
-  const url = "https://crazygames.co.id/game/bloxdhop-io?czy_invite=true&utm_source=invite&g=classic_factions&lobby=dd-world";
-  await page.goto(url);
+    const page = await browser.newPage();
 
-  // Pilih nama acak
-  const username = getRandomUsername();
-  console.log("Bot masuk dengan username:", username);
+    // Masukkan URL yang diinginkan
+    const url = "https://crazygames.co.id/game/bloxdhop-io?czy_invite=true&utm_source=invite&g=classic_factions&lobby=dd-world";
+    await page.goto(url);
 
-  // Misalnya, jika ada input field untuk nama pemain, simulasikan mengetikkan username:
-  await page.type('#username-input-selector', username);  // Ganti selector sesuai elemen input
-  await page.click('#submit-button-selector');  // Ganti selector tombol submit sesuai elemen tombol
+    // Pilih nama acak
+    const username = getRandomUsername();
+    console.log("Bot masuk dengan username:", username);
 
-  // Tunggu beberapa detik untuk memastikan interaksi selesai
-  await page.waitForTimeout(5000);
+    // Simulasikan mengetikkan username dan klik tombol submit
+    await page.type('#username-input-selector', username);  // Ganti dengan selector yang sesuai
+    await page.click('#submit-button-selector');  // Ganti dengan selector yang sesuai
 
-  // Tutup browser
-  await browser.close();
+    // Tunggu beberapa detik untuk memastikan interaksi selesai
+    await page.waitForTimeout(5000);
+
+    // Tutup browser
+    await browser.close();
+  } catch (error) {
+    console.error("Error running bot:", error);
+  }
+}
+
+// Fungsi untuk memilih username acak
+function getRandomUsername() {
+  const usernames = [
+    "blazed", "RangerkIng", "ShadowStrike", "PhoenixLord", "IceStorm",
+    "NightFury", "RedDemon", "MysticWarrior", "ThunderBolt", "DarkKnight", "FlameRider"
+  ];
+
+  const randomName = usernames[Math.floor(Math.random() * usernames.length)];
+  const randomNumber = Math.floor(100000 + Math.random() * 900000); // Angka 6 digit
+  const randomLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Huruf A-Z
+  const randomSuffix = Math.random().toString(36).substr(2, 2).toUpperCase(); // 2 karakter acak
+
+  return `${randomName}${randomLetter}${randomNumber}${randomSuffix}`;
 }
 
 runBot().catch(console.error);
