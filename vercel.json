@@ -1,13 +1,4 @@
 {
-  "builds": [
-    {
-      "src": "api/bot.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "engines": {
-    "node": "18.x"
-  }
   "functions": {
     "api/bot.js": {
       "maxDuration": 60,
