@@ -6,26 +6,16 @@ async function launchBrowser() {
     executablePath: await chromium.executablePath,
     args: chromium.args,
     headless: chromium.headless,
+    ignoreHTTPSErrors: true, // Menghindari kesalahan SSL
   });
   return browser;
 }
 
 module.exports = async (req, res) => {
-  if (req.method === 'GET') {
-    try {
-      // Luncurkan browser menggunakan chrome-aws-lambda
-      const browser = await launchBrowser();
-
-      // Lakukan apa yang perlu Anda lakukan dengan browser, misalnya mengambil screenshot atau crawling
-
-      // Tutup browser setelah selesai
-      await browser.close();
-
-      res.status(200).send('Browser berhasil diluncurkan dan ditutup!');
-    } catch (error) {
-      res.status(500).send('Terjadi kesalahan saat meluncurkan browser: ' + error.message);
-    }
-  } else {
-    res.status(405).send('Metode tidak diizinkan');
+  try {
+    const browser = await launchBrowser();
+    res.status(200).send('Browser launched successfully!');
+  } catch (error) {
+    res.status(500).send('Failed to launch browser: ' + error.message);
   }
 };
