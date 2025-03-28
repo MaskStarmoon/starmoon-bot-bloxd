@@ -1,0 +1,15 @@
+{
+  "name": "bloxdhop-bot",
+  "version": "1.0.0",
+  "description": "Bot untuk bermain di bloxdhop.io dengan username acak",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "puppeteer": "^20.1.0"
+  },
+  "engines": {
+    "node": "16.x"
+  }
+}
