@@ -5,7 +5,14 @@ async function runBot() {
   try {
     // Start Puppeteer with chrome-aws-lambda
     const browser = await puppeteer.launch({
-      args: chromium.args,
+      args: [
+        ...chromium.args,
+        '--no-sandbox',         // Tambahkan '--no-sandbox' untuk bypass masalah sandbox
+        '--disable-setuid-sandbox', // Disable setuid sandbox
+        '--disable-dev-shm-usage', // Disable dev/shm usage di Lambda environment
+        '--remote-debugging-port=9222', // Untuk debugging jika diperlukan
+        '--headless',            // Jalankan headless browser
+      ],
       executablePath: await chromium.executablePath,
       headless: chromium.headless,
     });
