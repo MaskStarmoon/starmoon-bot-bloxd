@@ -7,7 +7,7 @@
     "start": "node api/bot.js"
   },
   "dependencies": {
-    "puppeteer-core": "^22.1.0",
+    "puppeteer-core": "^10.4.0",
     "chrome-aws-lambda": "^10.1.0"
   },
   "engines": {
